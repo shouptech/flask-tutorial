@@ -1,9 +1,12 @@
 version: 2
 jobs:
-  docker:
-    - image: python:3
+  build:
+    docker:
+      - image: python:3
 
     steps:
       - checkout
-      run: coverage run -m pytest
-      run: coverage report
+      - run: pip install pytest coverage
+      - run: pip install -e .
+      - run: coverage run -m pytest
+      - run: coverage report
