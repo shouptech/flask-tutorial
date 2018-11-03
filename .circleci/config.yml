@@ -4,6 +4,9 @@ jobs:
     docker:
       - image: python:3
 
+    environment:
+      SECRET_KEY: DEV
+
     steps:
       - checkout
       - run: pip install pytest coverage
