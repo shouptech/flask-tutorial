@@ -7,8 +7,11 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
-        SECRET_KEY = os.environ.get("SECRET_KEY", default=None)
+        SECRET_KEY = os.environ.get("SECRET_KEY", default=None),
+        SQLALCHEMY_TRACK_MODIFICATIONS = os.environ.get(
+            "SQLALCHEMY_TRACK_MODIFICATIONS", default=False),
+        SQLALCHEMY_DATABASE_URI = os.environ.get(
+            "SQLALCHEMY_DATABASE_URI", default=None)
     )
 
     if test_config is None:
@@ -23,7 +26,6 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-
     # a simple page that says hello
     @app.route('/hello')
     def hello():
