@@ -1,0 +1,9 @@
+version: 2
+jobs:
+  docker:
+    - image: python:3
+
+    steps:
+      - checkout
+      run: coverage run -m pytest
+      run: coverage report
