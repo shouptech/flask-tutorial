@@ -4,14 +4,33 @@ jobs:
     docker:
       - image: python:3
 
-    environment:
-      SECRET_KEY: DEV
-
     steps:
       - checkout
-      - run: pip install pytest coverage
-      - run: pip install -e .
-      - run: coverage run -m pytest
-      - run: coverage report -m
-      - run: pip install codecov
-      - run: codecov
+      - run:
+          name: Install prerequisites
+          command: |
+            pip install pytest coverage
+            pip install -e .
+
+      - run:
+          name: Create config file
+          command: |
+            mkdir -p instance
+            echo << EOF
+            FLASK_APP='flaskr'
+            FLASK_ENV='development'
+            SECRET_KEY='test'
+            SQLALCHEMY_DATABASE_URI='sqlite:////tmp/flaskr.sqlite.db'
+            EOF > instance/config.py
+
+      - run:
+          name: Run coverage tests
+          command: |
+            coverage run -m pytest
+            coverage report -m
+
+      - run:
+          name: Upload to codecov.io
+          command: |
+            pip install codecov
+            codecov
