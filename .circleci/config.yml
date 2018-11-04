@@ -16,12 +16,12 @@ jobs:
           name: Create config file
           command: |
             mkdir -p instance
-            echo << EOF
+            cat << EOF > instance/config.py
             FLASK_APP='flaskr'
             FLASK_ENV='development'
             SECRET_KEY='test'
             SQLALCHEMY_DATABASE_URI='sqlite:////tmp/flaskr.sqlite.db'
-            EOF > instance/config.py
+            EOF
 
       - run:
           name: Run coverage tests
