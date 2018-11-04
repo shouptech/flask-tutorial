@@ -8,10 +8,12 @@ from flaskr.db import db, Post, User
 
 bp = Blueprint('blog', __name__)
 
+
 @bp.route('/')
 def index():
     posts = Post.query.join(User).order_by(Post.created.desc()).all()
     return render_template('blog/index.html', posts=posts)
+
 
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
@@ -35,6 +37,7 @@ def create():
 
     return render_template('blog/create.html')
 
+
 def get_post(id, check_author=True):
     post = Post.query.filter_by(id=id).first()
 
@@ -45,6 +48,7 @@ def get_post(id, check_author=True):
         abort(403)
 
     return post
+
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
 @login_required
@@ -69,6 +73,7 @@ def update(id):
             return redirect(url_for('blog.index'))
 
     return render_template('blog/update.html', post=post)
+
 
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required

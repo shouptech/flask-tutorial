@@ -1,7 +1,6 @@
 from datetime import datetime
 
 import click
-from flask import current_app, g
 from flask.cli import with_appcontext
 from flask_sqlalchemy import SQLAlchemy
 
@@ -11,6 +10,7 @@ db = SQLAlchemy()
 def init_db():
     db.create_all()
 
+
 @click.command('init-db')
 @with_appcontext
 def init_db_command():
@@ -18,9 +18,11 @@ def init_db_command():
     init_db()
     click.echo('Initialized the database.')
 
+
 def init_app(app):
-    db.init_app(app) # Initialize the sql alchemy database
+    db.init_app(app)  # Initialize the sql alchemy database
     app.cli.add_command(init_db_command)
+
 
 # Model definitions
 class User(db.Model):
@@ -31,6 +33,7 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
+
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
